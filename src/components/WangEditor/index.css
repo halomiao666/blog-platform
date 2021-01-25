@@ -1,0 +1,28 @@
+.editor-content {
+    width: 100%;
+    height: 400px;
+}
+
+#editor0 {
+    width: 915px!important;
+    height: 300px!important;
+}
+
+#editor1,
+#editor2 {
+    width: 915px!important;
+    height: 300px!important;
+}
+
+.w-e-toolbar {
+    width: 915px!important;
+}
+
+.w-e-text-container {
+    width: 915px!important;
+    height: 530px!important;
+}
+
+.wangEditor-container .wangEditor-txt {
+    height: 300px!important;
+}
