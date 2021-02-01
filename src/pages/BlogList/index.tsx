@@ -6,7 +6,7 @@ import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 // import CreateForm from './components/CreateForm';
 // import UpdateForm, { FormValueType } from './components/UpdateForm';
 import { TableListItem } from './data.d';
-import { getUsers } from './service';
+import { getblogs, deleteblogs } from './service';
 const TableList: React.FC<{}> = () => {
     const [createModalVisible, handleModalVisible] = useState<boolean>(false);
     const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
@@ -43,25 +43,27 @@ const TableList: React.FC<{}> = () => {
     //     sorter: true,
     //     valueType: 'dateTime',
     //   },
-    //   {
-    //     title: '操作',
-    //     dataIndex: 'option',
-    //     valueType: 'option',
-    //     render: (_, record) => (
-    //       <>
-    //         <a
-    //           onClick={() => {
-    //             handleUpdateModalVisible(true);
-    //             setStepFormValues(record);
-    //           }}
-    //         >
-    //           配置
-    //         </a>
-    //         <Divider type="vertical" />
-    //         <a href="">订阅警报</a>
-    //       </>
-    //     ),
-    //   },
+      {
+        title: '操作',
+        dataIndex: 'option',
+        valueType: 'option',
+        render: (_, record) => (
+          <>
+            <a
+              onClick={() => {
+                handleUpdateModalVisible(true);
+                setStepFormValues(record);
+              }}
+            >
+              编辑
+            </a>
+            <Divider type="vertical" />
+            <a onClick={() => {
+              deleteblogs({userid: record._id});
+            }}>删除</a>
+          </>
+        ),
+      },
     ];
   
     return (
@@ -69,7 +71,7 @@ const TableList: React.FC<{}> = () => {
         <ProTable<TableListItem>
           headerTitle="查询表格"
           actionRef={actionRef}
-          rowKey="key"
+          rowKey="_id"
           toolBarRender={(action, { selectedRows }) => [
             <Button icon={<PlusOutlined />} type="primary" onClick={() => handleModalVisible(true)}>
               新建
@@ -83,7 +85,7 @@ const TableList: React.FC<{}> = () => {
               </span>
             </div>
           )}
-          request={() => getUsers()}
+          request={() => getblogs()}
           columns={columns}
           rowSelection={{}}
         />

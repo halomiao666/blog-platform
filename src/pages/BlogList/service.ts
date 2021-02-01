@@ -1,18 +1,17 @@
-import axios from 'axios'
-import { TableListParams } from './data.d';
+import myPlatformService from '../../../config/service';
 
-const myPlatformService = axios.create({
-  baseURL: "http://127.0.0.1:4000",
-  timeout: 5000,
-  headers: {
-    'X-Requested-With': 'XMLHttpRequest'
-  }
-})
-export async function getUsers() {
+export async function getblogs() {
     return myPlatformService({
         method: 'get',
         url: '/users/get'
     })
+}
+export async function deleteblogs(data:any) {
+  return myPlatformService({
+      method: 'post',
+      url: '/users/delete',
+      data
+  })
 }
 // export default {
   

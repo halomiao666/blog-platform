@@ -9,7 +9,7 @@ const myPlatformService = axios.create({
   }
 })
 
-export async function registerUsers(data: TableListItem) {
+export async function addblogs(data: TableListItem) {
     return myPlatformService({
         method: 'post',
         url: '/users/add',
