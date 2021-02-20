@@ -1,22 +1,29 @@
 import { Divider } from 'antd';
+import { Link } from 'umi';
 import React, { useState, useRef } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import { TableListItem } from './data.d';
 import { getblogs, deleteblogs } from './service';
-const TableList: React.FC<{}> = () => {
-  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+interface BasicFormProps {
+  dispatch: Dispatch<any>;
+}
+// react hooks
+const TableList: React.FC<BasicFormProps> = (props) => {
+ 
+  // const updateBlogById = (updateId: String) => {
+  //   console.log('updateBlogById', updateId)
+  // }
   const actionRef = useRef<ActionType>();
   const columns: ProColumns<TableListItem>[] = [
-      // {
-      //   title: '板块',
-      //   dataIndex: 'block',
-      // },
-      {
-        title: '标题',
-        dataIndex: 'title',
-      },
+    // {
+    //   title: '板块',
+    //   dataIndex: 'block',
+    // },
+    {
+      title: '标题',
+      dataIndex: 'title',
+    },
     //   {
     //     title: '服务调用次数',
     //     dataIndex: 'callNo',
@@ -39,45 +46,45 @@ const TableList: React.FC<{}> = () => {
     //     sorter: true,
     //     valueType: 'dateTime',
     //   },
-      {
-        title: '操作',
-        dataIndex: 'option',
-        valueType: 'option',
-        render: (_, record) => (
-          <>
-            <a
-              onClick={() => {
-                handleUpdateModalVisible(true);
-              }}
-            >
-              编辑
-            </a>
-            <Divider type="vertical" />
-            <a onClick={() => {
-              deleteblogs({id: record._id});
-            }}>删除</a>
-          </>
-        ),
-      },
-    ];
-   
-      return (
-        <PageHeaderWrapper>
-          <ProTable<TableListItem>
-            headerTitle="查询表格"
-            actionRef={actionRef}
-            rowKey="_id"
-            request={async () => {
-              let blogs = await getblogs('js')
-              // let blogs = await getblogs(this.props.location.pathname.split('/list/')[1])
-              // console.log('location', this.props.location.pathname.split('/list/')[1])
-              return blogs.data
-            }}
-            columns={columns}
-            rowSelection={{}}
-          />
-        </PageHeaderWrapper>
-      );
-  };
-  
-  export default TableList;
+    {
+      title: '操作',
+      dataIndex: 'option',
+      valueType: 'option',
+      render: (_, record) => (
+        <>
+          <Link to={{
+            pathname: "/blogdetail/edit",
+            query: {
+              // block: record.block,
+              id: record._id,
+            }
+          }}>编辑</Link>
+          <Divider type="vertical" />
+          <a onClick={() => {
+            deleteblogs({ id: record._id });
+          }}>删除</a>
+        </>
+      ),
+    },
+  ];
+
+  return (
+    <PageHeaderWrapper>
+      <ProTable<TableListItem>
+        headerTitle="查询表格"
+        actionRef={actionRef}
+        rowKey="_id"
+        request={async () => {
+          // let blogs = await getblogs('js')
+          let blogs = await getblogs(props.location.pathname.split('/list/')[1])
+          // console.log('location', this.props.location.pathname.split('/list/')[1])
+          return blogs.data
+        }}
+        columns={columns}
+        rowSelection={{}}
+      />
+    </PageHeaderWrapper>
+  );
+};
+
+export default TableList;

@@ -16,6 +16,21 @@ export async function addblogs(data: TableListItem) {
         data
     });
 }
+
+export async function getBlogsById(id: String) {
+  return myPlatformService({
+      method: 'get',
+      url: '/blogs/getById/' + id
+  });
+}
+
+export async function updateblogs(data: TableListItem) {
+  return myPlatformService({
+      method: 'post',
+      url: '/blogs/update',
+      data
+  });
+}
   
 // export default {
   

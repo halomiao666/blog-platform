@@ -1,5 +1,6 @@
 
 export interface TableListItem {
+  id?: String,
   block: string;
   title: string;
   content: string
