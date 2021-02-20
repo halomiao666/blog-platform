@@ -1,25 +1,21 @@
-import { DownOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Divider, Dropdown, Menu, message } from 'antd';
+import { Divider } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
-// import CreateForm from './components/CreateForm';
-// import UpdateForm, { FormValueType } from './components/UpdateForm';
 import { TableListItem } from './data.d';
 import { getblogs, deleteblogs } from './service';
 const TableList: React.FC<{}> = () => {
-    const [createModalVisible, handleModalVisible] = useState<boolean>(false);
-    const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-    const [stepFormValues, setStepFormValues] = useState({});
-    const actionRef = useRef<ActionType>();
-    const columns: ProColumns<TableListItem>[] = [
+  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
+  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const actionRef = useRef<ActionType>();
+  const columns: ProColumns<TableListItem>[] = [
+      // {
+      //   title: '板块',
+      //   dataIndex: 'block',
+      // },
       {
-        title: '用户名',
-        dataIndex: 'username',
-      },
-      {
-        title: '密码',
-        dataIndex: 'password',
+        title: '标题',
+        dataIndex: 'title',
       },
     //   {
     //     title: '服务调用次数',
@@ -52,45 +48,36 @@ const TableList: React.FC<{}> = () => {
             <a
               onClick={() => {
                 handleUpdateModalVisible(true);
-                setStepFormValues(record);
               }}
             >
               编辑
             </a>
             <Divider type="vertical" />
             <a onClick={() => {
-              deleteblogs({userid: record._id});
+              deleteblogs({id: record._id});
             }}>删除</a>
           </>
         ),
       },
     ];
-  
-    return (
-      <PageHeaderWrapper>
-        <ProTable<TableListItem>
-          headerTitle="查询表格"
-          actionRef={actionRef}
-          rowKey="_id"
-          toolBarRender={(action, { selectedRows }) => [
-            <Button icon={<PlusOutlined />} type="primary" onClick={() => handleModalVisible(true)}>
-              新建
-            </Button>
-          ]}
-          tableAlertRender={({ selectedRowKeys, selectedRows }) => (
-            <div>
-              已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-              <span>
-                服务调用次数总计 {selectedRows.reduce((pre, item) => pre + item.callNo, 0)} 万
-              </span>
-            </div>
-          )}
-          request={() => getblogs()}
-          columns={columns}
-          rowSelection={{}}
-        />
-      </PageHeaderWrapper>
-    );
+   
+      return (
+        <PageHeaderWrapper>
+          <ProTable<TableListItem>
+            headerTitle="查询表格"
+            actionRef={actionRef}
+            rowKey="_id"
+            request={async () => {
+              let blogs = await getblogs('js')
+              // let blogs = await getblogs(this.props.location.pathname.split('/list/')[1])
+              // console.log('location', this.props.location.pathname.split('/list/')[1])
+              return blogs.data
+            }}
+            columns={columns}
+            rowSelection={{}}
+          />
+        </PageHeaderWrapper>
+      );
   };
   
   export default TableList;

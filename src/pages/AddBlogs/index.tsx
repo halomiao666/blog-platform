@@ -56,8 +56,9 @@ class AddBlogs extends React.Component<BasicFormProps, State> {
 
   onFinish = (values: { [key: string]: any }) => {
     addblogs({
-      username: values.title,
-      password: this.state.editor.$textElem.html()
+      block: values.block, 
+      title: values.title,
+      content: this.state.editor.$textElem.html()
     })
   };
 
@@ -92,6 +93,19 @@ class AddBlogs extends React.Component<BasicFormProps, State> {
             onFinishFailed={this.onFinishFailed}
             onValuesChange={this.onValuesChange}
           >
+             <FormItem
+              {...this.formItemLayout}
+              label="板块"
+              name="block"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入板块'
+                },
+              ]}
+            >
+              <Input placeholder='请输入板块' />
+            </FormItem>
             <FormItem
               {...this.formItemLayout}
               label="标题"

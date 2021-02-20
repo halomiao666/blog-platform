@@ -1,15 +1,15 @@
 import myPlatformService from '../../../config/service';
 
-export async function getblogs() {
+export async function getblogs(block: String) {
     return myPlatformService({
         method: 'get',
-        url: '/users/get'
+        url: '/blogs/getByBlock/'+ block
     })
 }
 export async function deleteblogs(data:any) {
   return myPlatformService({
       method: 'post',
-      url: '/users/delete',
+      url: '/blogs/delete',
       data
   })
 }
