@@ -11,17 +11,12 @@ interface BasicFormProps {
 // react hooks
 const TableList: React.FC<BasicFormProps> = (props) => {
 
-  // const updateBlogById = (updateId: String) => {
-  //   console.log('updateBlogById', updateId)
-  // }
   const actionRef = useRef<ActionType>();
-  const haha = function (record: { id: any; }) {
+  const deleteBlog = function (record: { id: any; }) {
     console.log(record.id)
     deleteblogs({ id: record.id }).then(res => {
       console.log(res, 'res')
-      // location.reload()
-      // console.log(props.location.pathname.split('/list/')[1])
-              getblogs(location.pathname.split('/list/')[1])
+      actionRef.current?.reload();
     })
   }
   const columns: ProColumns<TableListItem>[] = [
@@ -64,21 +59,13 @@ const TableList: React.FC<BasicFormProps> = (props) => {
           <Link to={{
             pathname: "/blogdetail/edit",
             query: {
-              // block: record.block,
               id: record._id,
             }
           }}>编辑</Link>
           <Divider type="vertical" />
-          {/* <a onClick={() => {
-            console.log('delete')
-          }}>删除</a> */}
           <Popconfirm
             title="确定删除吗？"
-            // onConfirm={() => deleteblogs({ id: record._id }).then(res => {
-            //   console.log(props.location.pathname.split('/list/')[1])
-            //   getblogs(props.location.pathname.split('/list/')[1])
-            //   })}
-              onConfirm={() => haha({ id: record._id })}
+            onConfirm={() => deleteBlog({ id: record._id })}
             // onCancel={canceldeleteblogs}
             okText="Yes"
             cancelText="No"

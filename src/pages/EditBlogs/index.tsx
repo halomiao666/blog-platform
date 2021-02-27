@@ -102,8 +102,6 @@ class EditBlogs extends React.Component<BasicFormProps, State> {
 
   onValuesChange = (changedValues: { [key: string]: any }) => {
     const { block, title, content } = changedValues;
-    console.log('changedValues', changedValues)
-    console.log('title', title)
     this.setState({
       block,
       title,
